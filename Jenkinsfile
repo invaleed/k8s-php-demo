@@ -87,7 +87,7 @@ spec:
           steps {
                 container('kubectl') {
                   // Create namespace if it doesn't exist
-                  sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
+                  // sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
                   // Change deployed image in canary to the one we just built
                   sh("sed -i.bak 's#docker.adzkia.web.id/ramadoni/nginx-hello:latest#${imageTag}#' ./k8s/canary/*.yaml")
                   sh("kubectl --namespace=canary apply -f k8s/services/")
@@ -101,8 +101,7 @@ spec:
           when { branch 'master' }
           steps{
                 container('kubectl') {
-                // Change deployed image in canary to the one we just built
-                  sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns production")
+                  // Change deployed image in canary to the one we just built
                   sh("sed -i.bak 's#docker.adzkia.web.id/ramadoni/nginx-hello:latest#${imageTag}#' ./k8s/production/*.yaml")
                   sh("kubectl --namespace=production apply -f k8s/services/")
                   sh("kubectl --namespace=production apply -f k8s/production/")
@@ -119,9 +118,9 @@ spec:
           steps {
                 container('kubectl') {
                   // Create namespace if it doesn't exist
-                  sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
+                  // sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
                   // Don't use public load balancing for development branches
-                  //sh("sed -i.bak 's#LoadBalancer#ClusterIP#' ./k8s/services/service.yaml")
+                  // sh("sed -i.bak 's#LoadBalancer#ClusterIP#' ./k8s/services/service.yaml")
                   sh("sed -i.bak 's#docker.adzkia.web.id/ramadoni/nginx-hello:latest#${imageTag}#' ./k8s/dev/*.yaml")
                   sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
                   sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
