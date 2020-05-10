@@ -16,13 +16,13 @@ labels:
 spec:
   containers:
   - name: docker
-    image: docker:dind
+    image: harbor.ict.prod/demo/dind
     securityContext:
       privileged: true    
     tty: true
     command: ["dockerd-entrypoint.sh", "--insecure-registry=harbor.ict.prod"]
   - name: kubectl
-    image: gcr.io/cloud-builders/kubectl
+    image: harbor.ict.prod/demo/kubectl
     command:
     - cat
     tty: true
