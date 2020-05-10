@@ -15,27 +15,27 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: nginx-hello
+  name: k8s-php
 spec:
   replicas:
   selector:
       matchLabels:
-          app: nginx-hello
+          app: k8s-php
           env: dev
   template:
     metadata:
       name: frontend
       labels:
-        app: nginx-hello
+        app: k8s-php
         env: dev
     spec:
       containers:
-      - name: nginx-hello
+      - name: k8s-php
         image: docker.adzkia.web.id/ramadoni/nginx-hello:latest
         resources:
           limits:
             memory: "500Mi"
             cpu: "100m"
         ports:
-        - name: nginx-hello
+        - name: k8s-php
           containerPort: 80

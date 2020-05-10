@@ -15,18 +15,18 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: nginx-hello
+  name: k8s-php
 spec:
   replicas:
   selector:
       matchLabels:
-          app: nginx-hello
+          app: k8s-php
           env: canary
   template:
     metadata:
-      name: nginx-hello
+      name: k8s-php
       labels:
-        app: nginx-hello
+        app: k8s-php
         env: canary
     spec:
       containers:
@@ -38,5 +38,5 @@ spec:
             cpu: "100m"
         imagePullPolicy: Always
         ports:
-        - name: nginx-hello
+        - name: k8s-php
           containerPort: 80
