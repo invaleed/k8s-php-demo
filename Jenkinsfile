@@ -22,7 +22,7 @@ spec:
     tty: true
     command: ["dockerd-entrypoint.sh", "--insecure-registry=harbor.ict.prod"]
   - name: kubectl
-    image: harbor.ict.prod/demo/kubectl
+    image: harbor.ict.prod/demo/kubectl:latest
     command:
     - cat
     tty: true
