@@ -92,7 +92,7 @@ spec:
                   sh("sed -i.bak 's#docker.adzkia.web.id/ramadoni/nginx-hello:latest#${imageTag}#' ./k8s/canary/*.yaml")
                   sh("kubectl --namespace=canary apply -f k8s/services/")
                   sh("kubectl --namespace=canary apply -f k8s/canary/")
-                  sh("echo http://`kubectl --namespace=canary get service/${appName} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'` > ${appName}")
+                  sh("echo http://`kubectl --namespace=${env.BRANCH_NAME} get service/${appName} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'` > ${appName}")
                 } 
           }
         }
@@ -102,6 +102,7 @@ spec:
           steps{
                 container('kubectl') {
                 // Change deployed image in canary to the one we just built
+                  sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns production")
                   sh("sed -i.bak 's#docker.adzkia.web.id/ramadoni/nginx-hello:latest#${imageTag}#' ./k8s/production/*.yaml")
                   sh("kubectl --namespace=production apply -f k8s/services/")
                   sh("kubectl --namespace=production apply -f k8s/production/")
@@ -124,6 +125,7 @@ spec:
                   sh("sed -i.bak 's#docker.adzkia.web.id/ramadoni/nginx-hello:latest#${imageTag}#' ./k8s/dev/*.yaml")
                   sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
                   sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
+                  sh("echo http://`kubectl --namespace=${env.BRANCH_NAME} get service/${appName} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'` > ${appName}")
                   //echo 'To access your environment run `kubectl proxy`'
                   //echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${appName}:80/"
                 }
