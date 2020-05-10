@@ -1,12 +1,15 @@
 <?php
-
-define('DB_SERVER', '__DB_SERVER__');
-define('DB_USERNAME', '__DB_USER__');
-define('DB_PASSWORD', '__DB_PASSWORD__');
-define('DB_NAME', '__DB_NAME__demo');
+/* Database credentials. Assuming you are running MySQL
+server with default setting (user 'root' with no password) */
+define('DB_SERVER', '10.58.8.26');
+define('DB_USERNAME', 'demo');
+define('DB_PASSWORD', 'P@ssw0rd');
+define('DB_NAME', 'demo');
   
+/* Attempt to connect to MySQL database */
 $link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
   
+// Check connection
 if($link === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
