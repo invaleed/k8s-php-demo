@@ -36,21 +36,25 @@ spec:
                 checkout scm
           }
         }
-        stage('Change Parameters') {
-          when { branch 'canary'} 
+        stage('Change Parameter Branch Canary') {
+          when { branch 'canary'}
           steps {
                 sh("sed -i.bak 's#__DB_SERVER__#$DB_SERVER_DEV#' demo/config.php")
                 sh("sed -i.bak 's#__DB_USER__#$DB_USER_DEV#' demo/config.php")
                 sh("sed -i.bak 's#__DB_PASSWORD__#$DB_PASSWORD_DEV#' demo/config.php")
                 sh("sed -i.bak 's#__DB_NAME__#$DB_NAME_DEV#' demo/config.php")
           }
-          when { branch 'master'} 
+        }
+        stage('Change Parameter Branch Master') {
+          when { branch 'master'}
           steps {
                 sh("sed -i.bak 's#__DB_SERVER__#$DB_SERVER_PROD#' demo/config.php")
                 sh("sed -i.bak 's#__DB_USER__#$DB_USER_PROD#' demo/config.php")
                 sh("sed -i.bak 's#__DB_PASSWORD__#$DB_PASSWORD_PROD#' demo/config.php")
                 sh("sed -i.bak 's#__DB_NAME__#$DB_NAME_PROD#' demo/config.php")
           }
+        }
+        stage('Change Parameter Branch Dev') {
           when { 
                 not { branch 'master' } 
                 not { branch 'canary' }
@@ -61,7 +65,6 @@ spec:
                 sh("sed -i.bak 's#__DB_PASSWORD__#$DB_PASSWORD_DEV#' demo/config.php")
                 sh("sed -i.bak 's#__DB_NAME__#$DB_NAME_DEV#' demo/config.php")
           }
-
         }
         stage('Build Docker Images') {
           steps {
